@@ -1,0 +1,19 @@
+.search {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+
+  input {
+    height: 44px;
+    border-radius: 4px;
+    border: 1px solid #cccccc;
+    padding: 4px 10px;
+    width: 100%;
+    max-width: 500px;
+  }
+
+  // overriding Google Place Autocomplete style
+  .pac-item {
+    padding: 4px 10px;
+  }
+}

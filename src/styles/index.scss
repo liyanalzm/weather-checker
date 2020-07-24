@@ -1,0 +1,32 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  overflow: auto;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.container {
+  max-width: 1024px;
+  width: 100%;
+  margin: 80px auto;
+  padding: 16px;
+
+  .welcome-text {
+    text-align: center;
+    h1 {
+      margin: 0;
+    }
+  }
+}
