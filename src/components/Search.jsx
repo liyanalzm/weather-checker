@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../styles/components/search.scss';
 
 const GOOGLE_MAP_KEY = process.env.GOOGLE_MAP_KEY;
-console.log(GOOGLE_MAP_KEY);
 let dropdown;
 
 const loadGPlaceScript = (callback) => {
