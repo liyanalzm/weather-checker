@@ -16,6 +16,12 @@ const Weather = ({ location }) => {
     const { lng, lat } = location;
     if (lng && lat) {
       getWeather(lng, lat);
+      // Scroll to weather details after data fetched
+      document.getElementById('weather').scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest'
+      });
     }
   }, [location]);
 
@@ -24,9 +30,6 @@ const Weather = ({ location }) => {
     const { data } = await getWeatherData(lng, lat, isMetric);
     const normalizedData = normalizeWeatherData(data);
     setWeatherData(normalizedData);
-    document
-      .getElementById('weather')
-      .scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     setIsFetching(false);
   };
 
@@ -38,36 +41,36 @@ const Weather = ({ location }) => {
 
   return (
     <div className="weather" id="weather">
+      {weatherData && (
+        <div className="toggle-container">
+          <Toggle
+            options={[
+              {
+                id: 'metrics',
+                label: 'Metric: °C, m/s',
+                isChecked: isMetric,
+                onClick: () => setIsMetric(true)
+              },
+              {
+                id: 'imperial',
+                label: 'Imperial: °F, mph',
+                isChecked: !isMetric,
+                onClick: () => setIsMetric(false)
+              }
+            ]}
+          />
+        </div>
+      )}
       {!isFetching ? (
         <>
           {weatherData ? (
-            <>
-              <div className="toggle-container">
-                <Toggle
-                  options={[
-                    {
-                      id: 'metrics',
-                      label: 'Metric: °C, m/s',
-                      isChecked: isMetric,
-                      onClick: () => setIsMetric(true)
-                    },
-                    {
-                      id: 'imperial',
-                      label: 'Imperial: °F, mph',
-                      isChecked: !isMetric,
-                      onClick: () => setIsMetric(false)
-                    }
-                  ]}
-                />
-              </div>
-              <div className="weather-container">
-                <WeatherDisplay
-                  data={weatherData}
-                  location={location}
-                  isMetric={isMetric}
-                />
-              </div>
-            </>
+            <div className="weather-container">
+              <WeatherDisplay
+                data={weatherData}
+                location={location}
+                isMetric={isMetric}
+              />
+            </div>
           ) : (
             <div className="text-container">Failed to fetch weather data</div>
           )}
