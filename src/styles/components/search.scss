@@ -12,6 +12,10 @@
     width: 100%;
     max-width: 500px;
     text-overflow: ellipsis;
+    &:focus {
+      border-color: #000000;
+      transition: border-color 0.5s;
+    }
   }
 }
 
