@@ -20,6 +20,13 @@ body {
   h2 {
     margin: 0;
   }
+
+  input:focus,
+  select:focus,
+  textarea:focus,
+  button:focus {
+    outline: none;
+  }
 }
 
 .container {
