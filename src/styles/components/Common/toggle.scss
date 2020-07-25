@@ -7,9 +7,13 @@
   text-align: center;
   max-width: 300px;
   width: 100%;
+  min-height: 44px;
 
   .option-one,
   .option-two {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 50%;
     padding: 10px 5px 10px;
     cursor: pointer;
