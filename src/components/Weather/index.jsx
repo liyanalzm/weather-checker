@@ -21,10 +21,14 @@ const Weather = ({ location }) => {
     const { data } = await getWeatherData(lng, lat);
     const normalizedData = normalizeWeatherData(data);
     setWeatherData(normalizedData);
+    console.log(document.getElementById('weather'));
+    document
+      .getElementById('weather')
+      .scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     setIsFetching(false);
   };
   return (
-    <div className="weather">
+    <div className="weather" id="weather">
       {!isFetching ? (
         <>
           {weatherData ? (
