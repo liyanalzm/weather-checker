@@ -13,8 +13,13 @@
     max-width: 500px;
     text-overflow: ellipsis;
   }
+}
 
-  // overriding Google Place Autocomplete style
+// overriding Google Place Autocomplete style
+.pac-container {
+  &:after {
+    margin-right: 4px;
+  }
   .pac-item {
     padding: 4px 10px;
   }
