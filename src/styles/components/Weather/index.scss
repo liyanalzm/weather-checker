@@ -2,16 +2,30 @@
   text-align: center;
   border-top: solid 1px #cccccc;
   margin-top: 48px;
-  padding: 48px 16px;
-  .toggle-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 24px;
-  }
+  padding: 48px 0;
   .text-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 250px;
+  }
+  .toggle-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 48px;
+  }
+  .weather-container {
+    padding: 0 16px;
+  }
+  @media only screen and (max-width: 1024px) {
+    .toggle-container {
+      padding: 0 16px;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .toggle-container {
+      justify-content: center;
+    }
   }
 }

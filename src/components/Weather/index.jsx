@@ -60,11 +60,13 @@ const Weather = ({ location }) => {
                   ]}
                 />
               </div>
-              <WeatherDisplay
-                data={weatherData}
-                location={location}
-                isMetric={isMetric}
-              />
+              <div className="weather-container">
+                <WeatherDisplay
+                  data={weatherData}
+                  location={location}
+                  isMetric={isMetric}
+                />
+              </div>
             </>
           ) : (
             <div className="text-container">Failed to fetch weather data</div>
