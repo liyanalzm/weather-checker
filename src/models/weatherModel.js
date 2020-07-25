@@ -13,8 +13,8 @@ export const normalizeWeatherData = (data) => ({
     speed: data.wind.speed,
     degree: data.wind.deg
   },
-  sunset: new Date(data.sys.sunset * 1000),
-  sunrise: new Date(data.sys.sunrise * 1000),
+  sunset: new Date(data.sys.sunset * 1000), // change into milliseconds
+  sunrise: new Date(data.sys.sunrise * 1000), // change into milliseconds
   time: new Date(),
   visibility: data.visibility,
   cloudiness: data.clouds.all
