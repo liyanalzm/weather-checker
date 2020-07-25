@@ -6,11 +6,6 @@ import Search from './components/Search.jsx';
 import Weather from './components/Weather/index.jsx';
 
 const App = () => {
-  // const [location, setLocation] = useState({
-  //   name: 'Pisa, Italy',
-  //   lat: 0,
-  //   lng: 0
-  // });
   const [location, setLocation] = useState();
   return (
     <div className="container">

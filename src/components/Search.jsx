@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import '../styles/components/search.scss';
 
@@ -7,7 +7,6 @@ const GOOGLE_MAP_KEY = process.env.GOOGLE_MAP_KEY;
 let dropdown;
 
 const Search = ({ onSelected }) => {
-  const [query, setQuery] = useState('');
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -26,21 +25,25 @@ const Search = ({ onSelected }) => {
     ]);
     dropdown.addListener('place_changed', async () => {
       const placeDetails = await getPlaceDetails();
-      setQuery(placeDetails.placeholderName);
       onSelected && onSelected(placeDetails);
     });
+  };
+
+  const handleInputChange = (event) => {
+    if (!event.target.value) {
+      onSelected && onSelected();
+    }
   };
 
   return (
     <div className="search">
       <input
         ref={dropdownRef}
-        onChange={(event) => setQuery(event.target.value)}
+        onChange={handleInputChange}
         onClick={(event) => {
           event.target.select();
         }}
         placeholder="Enter any location"
-        value={query}
       />
     </div>
   );
@@ -77,7 +80,6 @@ const getPlaceDetails = async () => {
   );
   const isContinent = !!placeObject.types.find((type) => type == 'continent');
 
-  console.log(placeObject);
   // Continent is declared as an Establishment
   if (isEstablishment && !isContinent) {
     const locality = placeObject.address_components.find((address) =>
@@ -96,7 +98,6 @@ const getPlaceDetails = async () => {
 
   return {
     name,
-    placeholderName: `${placeObject.name}, ${placeObject.formatted_address}`,
     lng: placeObject.geometry.location.lng(),
     lat: placeObject.geometry.location.lat()
   };

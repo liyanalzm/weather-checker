@@ -4,7 +4,7 @@ import '../../styles/components/Weather/WeatherDisplay.scss';
 import { capitalizeFirstLetter } from '../../helpers/string';
 import { formatDateTime, formatTime } from '../../helpers/date';
 
-const WeatherDisplay = ({ data, location }) => {
+const WeatherDisplay = ({ data, location, isMetric }) => {
   const {
     weather,
     main,
@@ -23,10 +23,13 @@ const WeatherDisplay = ({ data, location }) => {
       </div>
       <div className="temperature">
         <img src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`} />
-        <h2>{main.temp} °C</h2>
+        <h2>
+          {main.temp} {isMetric ? '°C' : '°F'}
+        </h2>
       </div>
       <p className="summary">
-        {main.feelsLike && `Feels like ${main.feelsLike} °C.`}
+        {main.feelsLike &&
+          `Feels like ${main.feelsLike} ${isMetric ? '°C' : '°F'}.`}
         {weather.description &&
           ` ${capitalizeFirstLetter(weather.description)}.`}
       </p>
@@ -34,7 +37,10 @@ const WeatherDisplay = ({ data, location }) => {
         infos={[
           { label: 'Humidity', value: `${main.humidity}%` },
           { label: 'Pressure', value: `${main.pressure} hPa` },
-          { label: 'Wind Speed', value: `${wind.speed} m/s` },
+          {
+            label: 'Wind Speed',
+            value: `${wind.speed} ${isMetric ? 'm/s' : 'mph'}`
+          },
           {
             label: 'Wind Degrees',
             value: `${wind.degree} degrees (meteorological)`
@@ -54,7 +60,7 @@ export default WeatherDisplay;
 const MoreInfo = ({ infos }) => (
   <div className="info">
     {infos.map(({ label, value }) => (
-      <div className="info__item">
+      <div className="info__item" key={label}>
         <label>{label}</label>
         <span>{value}</span>
       </div>
