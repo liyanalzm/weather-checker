@@ -1,6 +1,6 @@
 # The Weather Checker
 
-The Weather Checker app allows you to check the current weather at your any desired location! It can be a restaurants, hotels, cities and landmarks. This app allows you to:
+The Weather Checker app allows you to check the current weather at any of your desired location! It can be a restaurant, hotel, city and landmarks. This app allows you to:
 
 - Search your location
 - Display weather information for that specific area
