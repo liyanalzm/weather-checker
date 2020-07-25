@@ -5,7 +5,6 @@ import { capitalizeFirstLetter } from '../../helpers/string';
 import { formatDateTime, formatTime } from '../../helpers/date';
 
 const WeatherDisplay = ({ data, location }) => {
-  console.log(data);
   const {
     weather,
     main,
@@ -31,42 +30,34 @@ const WeatherDisplay = ({ data, location }) => {
         {weather.description &&
           ` ${capitalizeFirstLetter(weather.description)}.`}
       </p>
-      <div className="info">
-        <div className="info__item">
-          <label>Humidity</label>
-          <span>{main.humidity}%</span>
-        </div>
-        <div className="info__item">
-          <label>Pressure</label>
-          <span>{main.pressure} hPa</span>
-        </div>
-        <div className="info__item">
-          <label>Wind Speed</label>
-          <span>{wind.speed} m/s</span>
-        </div>
-        <div className="info__item">
-          <label>Wind Degrees</label>
-          <span>{wind.degree} degrees (meteorological)</span>
-        </div>
-        <div className="info__item">
-          <label>Visibility</label>
-          <span>{visibility} metres</span>
-        </div>
-        <div className="info__item">
-          <label>Cloudiness</label>
-          <span>{cloudiness}%</span>
-        </div>
-        <div className="info__item">
-          <label>Sunsrise</label>
-          <span>{formatTime(sunrise)}</span>
-        </div>
-        <div className="info__item">
-          <label>Sunset</label>
-          <span>{formatTime(sunset)}</span>
-        </div>
-      </div>
+      <MoreInfo
+        infos={[
+          { label: 'Humidity', value: `${main.humidity}%` },
+          { label: 'Pressure', value: `${main.pressure} hPa` },
+          { label: 'Wind Speed', value: `${wind.speed} m/s` },
+          {
+            label: 'Wind Degrees',
+            value: `${wind.degree} degrees (meteorological)`
+          },
+          { label: 'Visibility', value: `${visibility} metres` },
+          { label: 'Cloudiness', value: `${cloudiness}%` },
+          { label: 'Sunsrise', value: formatTime(sunrise) },
+          { label: 'Sunset', value: formatTime(sunset) }
+        ]}
+      />
     </div>
   );
 };
 
 export default WeatherDisplay;
+
+const MoreInfo = ({ infos }) => (
+  <div className="info">
+    {infos.map(({ label, value }) => (
+      <div className="info__item">
+        <label>{label}</label>
+        <span>{value}</span>
+      </div>
+    ))}
+  </div>
+);

@@ -6,6 +6,48 @@ const GOOGLE_MAP_KEY = process.env.GOOGLE_MAP_KEY;
 
 let dropdown;
 
+const Search = ({ onSelected }) => {
+  const [query, setQuery] = useState('');
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    // Script is loaded on mounted to avoid long wait on the first load
+    loadGPlaceScript(() => onGPlaceScriptLoaded(dropdownRef));
+  }, []);
+
+  const onGPlaceScriptLoaded = (dropdownRef) => {
+    dropdown = new window.google.maps.places.Autocomplete(dropdownRef.current);
+    dropdown.setFields([
+      'geometry',
+      'name',
+      'formatted_address',
+      'address_components',
+      'types'
+    ]);
+    dropdown.addListener('place_changed', async () => {
+      const placeDetails = await getPlaceDetails();
+      setQuery(placeDetails.placeholderName);
+      onSelected && onSelected(placeDetails);
+    });
+  };
+
+  return (
+    <div className="search">
+      <input
+        ref={dropdownRef}
+        onChange={(event) => setQuery(event.target.value)}
+        onClick={(event) => {
+          event.target.select();
+        }}
+        placeholder="Enter any location"
+        value={query}
+      />
+    </div>
+  );
+};
+
+export default Search;
+
 const loadGPlaceScript = (callback) => {
   let script = document.createElement('script');
   script.type = 'text/javascript';
@@ -59,45 +101,3 @@ const getPlaceDetails = async () => {
     lat: placeObject.geometry.location.lat()
   };
 };
-
-const Search = ({ onSelected }) => {
-  const [query, setQuery] = useState('');
-  const dropdownRef = useRef(null);
-
-  useEffect(() => {
-    // Script is loaded on mounted to avoid long wait on the first load
-    loadGPlaceScript(() => onGPlaceScriptLoaded(dropdownRef));
-  }, []);
-
-  const onGPlaceScriptLoaded = (dropdownRef) => {
-    dropdown = new window.google.maps.places.Autocomplete(dropdownRef.current);
-    dropdown.setFields([
-      'geometry',
-      'name',
-      'formatted_address',
-      'address_components',
-      'types'
-    ]);
-    dropdown.addListener('place_changed', async () => {
-      const placeDetails = await getPlaceDetails();
-      setQuery(placeDetails.placeholderName);
-      onSelected && onSelected(placeDetails);
-    });
-  };
-
-  return (
-    <div className="search">
-      <input
-        ref={dropdownRef}
-        onChange={(event) => setQuery(event.target.value)}
-        onClick={(event) => {
-          event.target.select();
-        }}
-        placeholder="Enter any location"
-        value={query}
-      />
-    </div>
-  );
-};
-
-export default Search;

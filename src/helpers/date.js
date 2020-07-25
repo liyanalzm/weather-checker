@@ -23,7 +23,7 @@ const days = [
   'Saturday'
 ];
 
-// 10:44am, Saturday, July 25, 2020
+// eg: 10:44am, Saturday, July 25, 2020
 export const formatDateTime = (dateTime) => {
   const time = formatTime(dateTime);
   const day = days[dateTime.getDay()];
@@ -44,6 +44,3 @@ export const formatTime = (date) => {
   var strTime = hours + ':' + minutes + ' ' + ampm;
   return strTime;
 };
-
-//
-export const formatUnixTimestamp = () => {};
