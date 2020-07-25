@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   margin-top: 24px;
+  padding: 0 16px;
 
   input {
     height: 44px;
@@ -10,6 +11,7 @@
     padding: 4px 10px;
     width: 100%;
     max-width: 500px;
+    text-overflow: ellipsis;
   }
 
   // overriding Google Place Autocomplete style

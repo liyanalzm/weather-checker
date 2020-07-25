@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../styles/components/search.scss';
 
 const GOOGLE_MAP_KEY = process.env.GOOGLE_MAP_KEY;
+
 let dropdown;
 
 const loadGPlaceScript = (callback) => {
@@ -25,9 +26,35 @@ const loadGPlaceScript = (callback) => {
   document.getElementsByTagName('head')[0].appendChild(script); // append to head
 };
 
-const getPlaceLngLat = () => {
+const getPlaceDetails = async () => {
   const placeObject = dropdown.getPlace();
+  let name = placeObject.name;
+
+  const isEstablishment = !!placeObject.types.find(
+    (type) => type === 'establishment'
+  );
+  const isContinent = !!placeObject.types.find((type) => type == 'continent');
+
+  console.log(placeObject);
+  // Continent is declared as an Establishment
+  if (isEstablishment && !isContinent) {
+    const locality = placeObject.address_components.find((address) =>
+      address.types.find((type) => type === 'locality')
+    );
+
+    const area = placeObject.address_components.find((address) =>
+      address.types.find((type) => type === 'administrative_area_level_1')
+    );
+    if (locality || area) {
+      name = `${locality ? `${locality.long_name}${area ? ', ' : ''}` : ''}${
+        area ? area.long_name : ''
+      }`;
+    }
+  }
+
   return {
+    name,
+    placeholderName: `${placeObject.name}, ${placeObject.formatted_address}`,
     lng: placeObject.geometry.location.lng(),
     lat: placeObject.geometry.location.lat()
   };
@@ -44,10 +71,17 @@ const Search = ({ onSelected }) => {
 
   const onGPlaceScriptLoaded = (dropdownRef) => {
     dropdown = new window.google.maps.places.Autocomplete(dropdownRef.current);
-    dropdown.setFields(['geometry']);
+    dropdown.setFields([
+      'geometry',
+      'name',
+      'formatted_address',
+      'address_components',
+      'types'
+    ]);
     dropdown.addListener('place_changed', async () => {
-      const placeLngLat = await getPlaceLngLat();
-      onSelected && onSelected(placeLngLat);
+      const placeDetails = await getPlaceDetails();
+      setQuery(placeDetails.placeholderName);
+      onSelected && onSelected(placeDetails);
     });
   };
 
@@ -56,6 +90,9 @@ const Search = ({ onSelected }) => {
       <input
         ref={dropdownRef}
         onChange={(event) => setQuery(event.target.value)}
+        onClick={(event) => {
+          event.target.select();
+        }}
         placeholder="Enter any location"
         value={query}
       />
