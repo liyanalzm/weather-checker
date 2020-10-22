@@ -7,8 +7,6 @@ The Weather Checker app allows you to check the current weather at any of your d
 - The flexibility to use Metrics or Imperial units
 - View in any device without any worries of the UI breaking
 
-**Demo:** [Click here to view demo](https://liyana-weather-checker.netlify.app/)
-
 ## Tech
 
 The Weather Checker app uses a number of technologies such as:
